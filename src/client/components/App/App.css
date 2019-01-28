@@ -1,0 +1,22 @@
+:root {
+    --test: silver;
+}
+
+.App {
+    background: var(--bkg);
+    
+    .h1 {
+        color: blue;
+        font-weight: bold;
+
+        &__test {
+            color: tomato;
+
+            @above desktop {
+                color: yellow;
+            }
+
+        }
+        
+    }
+}

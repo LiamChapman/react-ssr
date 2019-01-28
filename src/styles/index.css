@@ -1,0 +1,11 @@
+@import "reset.css";
+@import "vars.css";
+
+body {
+    background: #eee;
+
+    @above xlDesktop {
+        background: purple;
+    }
+
+}
