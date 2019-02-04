@@ -14,11 +14,11 @@ const app  = express();
 const PORT = process.env.PORT || 3334;
 app.disable('x-powered-by');
 app.use(cors());
-app.use(express.static('./dist'));
+app.use(express.static('./dist/assets'));
 app.use(handleRender);
 
 /* Handle React Application */
-function handleRender(req, res) {
+function handleRender(req, res) {    
     console.log(">>>> RENDER!");
     const context   = {}; 
     const store     = configureStore({});
