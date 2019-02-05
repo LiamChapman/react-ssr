@@ -50,7 +50,9 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "helmet": "^3.15.0",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "react-helmet": "^5.2.0"
   }
 }

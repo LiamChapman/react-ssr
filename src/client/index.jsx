@@ -3,15 +3,27 @@ import {
     Switch, 
     Route
 } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import App from './components/App/index.jsx';
 import NotFound from './NotFound.jsx';
 
+
 const Test = () => (
-    <h1>Test!</h1>
+    <div>
+        <Helmet>
+            <title>This is a test!</title>
+        </Helmet>
+        <h1>Test!</h1>
+    </div>
 );
 
 const Bruh = () => (
-    <h1>Bruh!</h1>
+    <div>
+        <Helmet>
+            <title>BRUUUUUUH</title>
+        </Helmet>
+        <h1>Bruh!</h1>
+    </div>
 );
 
 const Client = () => (

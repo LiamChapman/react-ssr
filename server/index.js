@@ -2,51 +2,58 @@ import path from 'path';
 import fs from 'fs';
 import React from 'react';
 import express from 'express';
+import helmet from 'helmet';
 import cors from 'cors';
 import configureStore from '../src/redux/store/configureStore';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { renderToString } from 'react-dom/server';
 import Client from '../src/client/index.jsx';
 
 /* Express settings */
 const app  = express();
 const PORT = process.env.PORT || 3334;
-app.disable('x-powered-by');
-app.use(cors());
+// app.disable('x-powered-by'); // sorted by helmet
+// app.use(cors()); // for when we want CORS etc
+app.use(helmet());
 app.use(express.static('./dist/assets'));
 app.use(handleRender);
 
 /* Handle React Application */
-function handleRender(req, res) {    
-    console.log(">>>> RENDER!");
+function handleRender(req, res) {
     const context   = {}; 
-    const store     = configureStore({});
-    const indexFile = path.resolve('./dist/index.html');
-    const html      = renderToString(
+    const store     = configureStore({});    
+    const body      = renderToString(
         <Provider store={store}>
             <StaticRouter location={req.url} context={context}>
                 <Client />
             </StaticRouter>
         </Provider>
     );
-    console.log("URL: ", req.url); 
-    fs.readFile(indexFile, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Something went wrong:', err);
-        }        
-        res.status(context.status||200).send( 
-            data.replace(
-                '<div id="root"></div>',
-                `
-                <div id="root">${html}</div>
-                <script>                
+    const head = Helmet.renderStatic();
+    res.send(
+        `<!DOCTYPE html>
+        <html ${head.htmlAttributes.toString()}>
+            <head>
+                <meta charset="utf-8" />
+                <meta name="viewport" content="initial-scale=1,width=device-width,maximum-scale=1,user-scalable=no,minimal-ui" />
+                <link href="/styles/main.css" rel="stylesheet"></head>
+                ${head.title.toString() || `<title>Default title</title>`}
+                ${head.meta.toString()}
+                ${head.link.toString()}
+                ${head.base.toString()}
+            </head>
+            <body ${head.bodyAttributes.toString()}>
+                ${head.noscript.toString()}
+                <div id="root">${body}</div>
+                <script type="text/javascript" src="/scripts/main.js"></script>
+                <script>
                     window.__PRELOADED_STATE__ = ${JSON.stringify(store)}
                 </script>
-                `
-            )
-        );
-    });    
+            </body>
+        </html>`
+    );
 }
 
 /* Listen for connections */
