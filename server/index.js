@@ -32,7 +32,8 @@ function handleRender(req, res) {
         </Provider>
     );
     const head = Helmet.renderStatic();
-    res.send(
+    console.log("➡️  SSR:", req.url, ", Status:", context.status||200);
+    res.status(context.status||200).send(
         `<!DOCTYPE html>
         <html ${head.htmlAttributes.toString()}>
             <head>
