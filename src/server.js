@@ -1,21 +1,18 @@
-import path from 'path';
-import fs from 'fs';
 import React from 'react';
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import configureStore from '../src/redux/store/configureStore';
+import configureStore from './redux/store/configureStore';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { renderToString } from 'react-dom/server';
-import Client from '../src/client/index.jsx';
+import Client from './client/index.jsx';
 
 /* Express settings */
 const app  = express();
 const PORT = process.env.PORT || 3334;
-// app.disable('x-powered-by'); // sorted by helmet
-// app.use(cors()); // for when we want CORS etc
+app.use(cors());
 app.use(helmet());
 app.use(express.static('./dist/assets'));
 app.use(handleRender);
@@ -50,7 +47,7 @@ function handleRender(req, res) {
                 <div id="root">${body}</div>
                 <script type="text/javascript" src="/scripts/main.js"></script>
                 <script>
-                    window.__PRELOADED_STATE__ = ${JSON.stringify(store)}
+                    window.__PRELOADED_STATE__ = ${JSON.stringify(store)};
                 </script>
             </body>
         </html>`

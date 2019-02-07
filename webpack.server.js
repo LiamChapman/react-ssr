@@ -1,14 +1,13 @@
 const path  = require('path');
 const nodeExternals = require('webpack-node-externals');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    entry: './server/index.js',
+    entry: './src/server.js',
     target: 'node',
     externals: [nodeExternals()],
     output: {
-        path: path.resolve('server-build'),
-        filename: 'index.js'
+        path: path.resolve('dist'),
+        filename: 'server.js'
     },
     module: {
         rules: [
@@ -19,20 +18,8 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    'extracted-loader',
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader'
-                    },
-                    'postcss-loader',
-                ],
+                loader: 'ignore-loader'
             }
         ]
-    },
-    plugins: [
-        new MiniCssExtractPlugin({
-            filename: '/assets/styles/[name].css',
-        }),
-    ]
+    }
 };
