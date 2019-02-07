@@ -19,8 +19,11 @@ app.use(handleRender);
 
 /* Handle React Application */
 function handleRender(req, res) {
+    // context object to handle responses such as status
     const context   = {}; 
+    // load redux data store to pass through as windo object
     const store     = configureStore({});    
+    // fetch primary component and wrap in static router to handle urls
     const body      = renderToString(
         <Provider store={store}>
             <StaticRouter location={req.url} context={context}>
@@ -28,8 +31,11 @@ function handleRender(req, res) {
             </StaticRouter>
         </Provider>
     );
+    // fetch head data such as title and meta data
     const head = Helmet.renderStatic();
+    // report back in the terminal that we're successfully loading from the server
     console.log("➡️  SSR:", req.url, ", Status:", context.status||200);
+    // respond with the correct status code and our generic html template
     res.status(context.status||200).send(
         `<!DOCTYPE html>
         <html ${head.htmlAttributes.toString()}>
