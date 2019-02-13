@@ -41,11 +41,21 @@ module.exports = {
                     'postcss-loader',
                 ],
             },
-            // test for font files
             {
-                test: /\.(svg|woff|eot|png)$/,
+                test: /\.(png|svg|jpe?g|gif|bmp)$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: 'assets/images/[name].[hash:8].[ext]',
+                },
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
                 loader: 'file-loader',
-            }
+                options: {
+                    name: 'assets/fonts/[name].[ext]',
+                }
+            }           
         ]
     },
     plugins: [

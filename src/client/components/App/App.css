@@ -5,6 +5,11 @@
 .App {
     background: var(--bkg);
     
+    img {
+        max-width: 300px;
+        display: block;
+    }
+    
     .h1 {
         color: blue;
         font-weight: bold;
