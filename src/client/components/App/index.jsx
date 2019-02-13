@@ -6,8 +6,7 @@ import Ralph from '../../../images/ralph-1.jpg';
 
 const handleClick = e => alert('waddup')
 
-const App = () => {
-    console.log(Ralph);
+const App = () => {    
     return(<div className="App">
         <Helmet>
             <title>THIS IS A MUTHA FLIPPIN APP YO!</title>
